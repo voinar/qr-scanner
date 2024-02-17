@@ -1,0 +1,26 @@
+.container {
+  /* min-height: 100vh; */
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+}
+
+.section {
+  width: 700px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 260px;
+  cursor: pointer;
+}
