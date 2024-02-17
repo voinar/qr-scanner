@@ -8,23 +8,29 @@ import Image from 'next/image';
 const WebcamComponent = () => <Webcam />;
 
 const videoConstraints = {
-  width: 1280,
-  height: 720,
+  width: 800,
+  height: 800,
   facingMode: 'user',
 };
 
 const WebcamCapture = () => {
   const webcamRef = React.useRef(null);
   const [image, setImage] = useState(placeholder);
+  const [imageStr, setImageStr] = useState('');
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     console.log(imageSrc);
     setImage(imageSrc);
+    setImageStr(imageSrc);
   }, [webcamRef]);
+
+  const encodedData = imageStr;
+  // const decodedData = atob(encodedData);
 
   return (
     <div className={styles.container}>
+
       <div className={styles.section}>
         <Webcam
           className={styles.image}
@@ -35,6 +41,7 @@ const WebcamCapture = () => {
           // width={1280}
           videoConstraints={videoConstraints}
           onClick={capture}
+
         />
         <button onClick={capture}>Capture photo</button>
       </div>
@@ -49,6 +56,8 @@ const WebcamCapture = () => {
         />
         <span>Output</span>
       </div>
+      <span>enc: {encodedData}</span>
+      {/* <span>dec: {decodedData}</span> */}
     </div>
   );
 };
