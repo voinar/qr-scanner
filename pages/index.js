@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css';
 
 import React from 'react';
 import Webcam from 'react-webcam';
-import { WebcamCapture } from './Webcam';
+import WebcamCapture from './Webcam';
 
 export default function Home() {
   return (

@@ -13,7 +13,7 @@ const videoConstraints = {
   facingMode: 'user',
 };
 
-export const WebcamCapture = () => {
+const WebcamCapture = () => {
   const webcamRef = React.useRef(null);
   const [image, setImage] = useState(placeholder);
 
@@ -52,3 +52,5 @@ export const WebcamCapture = () => {
     </div>
   );
 };
+
+export default WebcamCapture;
