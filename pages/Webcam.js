@@ -16,21 +16,40 @@ const videoConstraints = {
 const WebcamCapture = () => {
   const webcamRef = React.useRef(null);
   const [image, setImage] = useState(placeholder);
-  const [imageStr, setImageStr] = useState('');
+  const [imageLabel, setImageLabel] = useState('');
+  // const [imageStr, setImageStr] = useState('');
 
-  const capture = React.useCallback(() => {
+  const captureImage = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log(imageSrc);
+    console.log('base64: ', imageSrc);
+    console.log('imageLabel: ', imageLabel);
     setImage(imageSrc);
-    setImageStr(imageSrc);
   }, [webcamRef]);
 
-  const encodedData = imageStr;
+  // const encodedData = imageStr;
   // const decodedData = atob(encodedData);
+
+  const sendPictureToApi = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: 'api post request przyklad',
+        imageData: image,
+        imageLabel: imageLabel,
+      }),
+    };
+    fetch('http://srv21.mikr.us:40140/send-img', requestOptions)
+      .then((response) => console.log('res ', response))
+      .catch((error) => console.log('error: ', error));
+    // .then((data) => this.setState({ postId: data.id }));
+    console.log('sending image to api');
+  };
 
   return (
     <div className={styles.container}>
-
       <div className={styles.section}>
         <Webcam
           className={styles.image}
@@ -40,10 +59,21 @@ const WebcamCapture = () => {
           screenshotFormat="image/jpeg"
           // width={1280}
           videoConstraints={videoConstraints}
-          onClick={capture}
-
+          onClick={captureImage}
         />
-        <button onClick={capture}>Capture photo</button>
+        <button onClick={captureImage}>Capture photo</button>
+        <form>
+          <label>
+            {/* enter your input */}
+            <input
+              type="text"
+              name="name"
+              value={imageLabel}
+              placeholder="enter your label"
+              onChange={(e) => setImageLabel(e.target.value)}
+            />
+          </label>
+        </form>
       </div>
       <div className={styles.section}>
         <Image
@@ -56,8 +86,11 @@ const WebcamCapture = () => {
         />
         <span>Output</span>
       </div>
-      <span>enc: {encodedData}</span>
+      {/* <span>enc: {encodedData}</span> */}
       {/* <span>dec: {decodedData}</span> */}
+      <div>
+        <button onClick={sendPictureToApi}>Send call to API</button>
+      </div>
     </div>
   );
 };
